@@ -7,13 +7,11 @@ import { getErc20TokenBalancesInWallet } from './utils/tokens';
 dotenv.config();
 
 const app: Express = express();
+app.use(express.json());
+
 const port = process.env.PORT || 3002;
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('hello world');
-});
-
-app.get(USER_AUTHENTICATE, (req: Request, res: Response) => {
+app.put(USER_AUTHENTICATE, (req: Request, res: Response) => {
     const walletAddress = req.body.walletAddress;
     const signature = req.body.signature;
     const message = req.body.message;
@@ -31,12 +29,14 @@ app.get(USER_AUTHENTICATE, (req: Request, res: Response) => {
     }
 
     const signerAdress = verifyMessage(message, signature);
+
     if (signerAdress !== walletAddress) {
         res.status(400).send('Signer address does not match wallet address');
         return;
     }
 
     res.send(true);
+    return;
 });
 
 app.get(USER_TOKENS, async (req, res) => {
@@ -53,8 +53,13 @@ app.get(USER_TOKENS, async (req, res) => {
 
     console.log(tokenData);
     res.send(tokenData);
+    return;
 });
 
-app.listen(port, () => {
-    console.log(`server running at http://localhost:${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`server running at http://localhost:${port}`);
+    });
+}
+
+export default app;

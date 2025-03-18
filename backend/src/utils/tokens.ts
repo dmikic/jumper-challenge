@@ -9,7 +9,7 @@ export const getErc20TokenBalancesInWallet = async (address: string) => {
             params: [address, 'erc20'],
         });
 
-        const resp = await fetch(ALCHEMY_API_URL + process.env.ALCHEMY_API_KEY, {
+        const resp = await fetch(`${ALCHEMY_API_URL}${process.env.ALCHEMY_API_KEY}`, {
             method: 'POST',
             body: body,
         });
