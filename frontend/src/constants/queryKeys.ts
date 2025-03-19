@@ -4,6 +4,7 @@ const QUERY_KEYS = {
     "userAuthentication",
     walletAddress,
   ],
+  usersAuthenticated: () => ["usersAuthenticated"],
 };
 
 export default QUERY_KEYS;

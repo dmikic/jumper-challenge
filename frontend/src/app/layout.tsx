@@ -1,5 +1,6 @@
 // import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
+import Header from "@/components/Header/Header";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
@@ -29,7 +30,10 @@ export default function RootLayout({
       <body className={"antialiased"}>
         <Providers>
           <Toaster position="top-center" />
-          {children}
+          <div className="relative min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+            <Header />
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

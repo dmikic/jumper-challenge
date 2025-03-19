@@ -27,6 +27,10 @@ if (process.env.NODE_ENV !== 'test') {
     });
 }
 
+app.get('/', (req: Request, res: Response) => {
+    res.send(`server is running`);
+});
+
 app.put(USER_SIGN_UP, async (req: Request, res: Response) => {
     const walletAddress = req.body.walletAddress;
     const signature = req.body.signature;
@@ -90,10 +94,6 @@ app.get(USER_AUTHENTICATION, async (req: Request, res: Response) => {
 
 app.get(USERS_AUTHENTICATED, async (req: Request, res: Response) => {
     const allUsersString = await redisClient.get('users');
-
-    const allUsersObjects = allUsersString
-        ? new Map<string, string>(JSON.parse(allUsersString))
-        : new Map<string, string>();
 
     res.send(allUsersString);
     return;

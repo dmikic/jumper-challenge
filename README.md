@@ -1,15 +1,15 @@
-# Jumper challenge
+# Jumper Challenge
 
-## Getting start
+## Getting Started
 
-There's 2 directories into this repository with a README.md for each of those to have more informations about their respective setup.
+This repository contains two directories, each with its own `README.md` file for detailed setup instructions.
 
-### frontend
+### Frontend
 
-classic nextjs implementation within the material ui 5 setup.
+A classic Next.js implementation with RainbowKit for wallet connection.
 
-### backend
+### Backend
 
-expressjs 4 with some default routes and examples.
+An Express.js 4 application with a cloud Redis database.
 
 ## Enjoy!
