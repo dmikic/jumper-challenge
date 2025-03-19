@@ -54,7 +54,6 @@ app.get(USER_TOKENS, async (req, res) => {
 
     const tokenData = await getErc20TokenBalancesInWallet(walletAddress);
 
-    console.log(tokenData);
     res.send(tokenData);
     return;
 });
