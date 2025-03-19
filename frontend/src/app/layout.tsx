@@ -1,9 +1,9 @@
 // import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "@rainbow-me/rainbowkit/styles.css";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { Providers } from "./providers";
-
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -27,7 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={"antialiased"}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Toaster position="top-center" />
+          {children}
+        </Providers>
       </body>
     </html>
   );

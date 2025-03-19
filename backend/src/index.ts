@@ -25,12 +25,10 @@ app.put(USER_AUTHENTICATE, (req: Request, res: Response) => {
     }
 
     const invalidAddress = !isAddress(walletAddress);
-
     if (invalidAddress) {
         res.status(400).send('Invalid Ethereum address');
         return;
     }
-
     const signerAdress = verifyMessage(message, signature);
 
     if (signerAdress !== walletAddress) {
