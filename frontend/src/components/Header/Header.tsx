@@ -91,10 +91,10 @@ export default function Header() {
       <div className="absolute top-4 right-4 flex gap-4">
         {isConnected && (
           <button
-            disabled={signingInProgress || userAuthenticated}
+            disabled={signingInProgress || userAuthenticated || chain?.id !== 1}
             onClick={signUp}
             className={`h-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 ${
-              signingInProgress || userAuthenticated
+              signingInProgress || userAuthenticated || chain?.id !== 1
                 ? "cursor-not-allowed"
                 : "cursor-pointer"
             }`}

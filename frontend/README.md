@@ -1,6 +1,7 @@
 # Jumper Challenge Frontend dApp
 
 This is the frontend dApp created for the Jumper Challenge.
+Main feature is fetching all tokens for the connected wallet on Ethereum mainnet network.
 
 ## Getting Started
 

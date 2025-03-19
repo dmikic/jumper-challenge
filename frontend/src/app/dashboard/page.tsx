@@ -27,7 +27,11 @@ export default function Dashboard() {
 
   return (
     <div className="flex items-center justify-center min-h-full text-center">
-      {!isConnected ? (
+      {chain?.id !== 1 ? (
+        <div className="flex items-center justify-center min-h-screen text-center text-xl font-bold text-white-600">
+          Please connect to Ethereum Mainnet to view this page
+        </div>
+      ) : !isConnected ? (
         <label>Welcome, please connect a wallet first</label>
       ) : userTokensQuery.isError ? (
         <div>Something went wrong!</div>
