@@ -1,6 +1,7 @@
 "use client";
 
-import { USER_AUTHENTICATION } from "@/constants/backendEndpoints";
+import { USER_SIGN_UP } from "@/constants/backendEndpoints";
+import useUserAuthenticationQuery from "@/queries/useUserAuthenticationQuery";
 import useUserTokensQuery from "@/queries/useUserTokensQuery";
 import { config } from "@/utils/wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -13,8 +14,14 @@ export default function Home() {
   const { address, isConnected, chain } = useAccount();
   const [userTokens, setUserTokens] = useState<any[] | undefined>();
   const [signingInProgress, setSigningInProgress] = useState<boolean>(false);
+  const [userAuthenticated, setUserAuthenticated] = useState<boolean>(false);
 
   const userTokensQuery = useUserTokensQuery(
+    address ?? "",
+    isConnected && chain?.id === 1
+  );
+
+  const userAuthenticationQuery = useUserAuthenticationQuery(
     address ?? "",
     isConnected && chain?.id === 1
   );
@@ -24,11 +31,26 @@ export default function Home() {
       setUserTokens(userTokensQuery.data);
     }
   }, [
-    userTokensQuery.isSuccess,
-    userTokensQuery.data,
+    address,
     chain,
     isConnected,
+    userTokensQuery.isSuccess,
+    userTokensQuery.data,
+  ]);
+
+  useEffect(() => {
+    if (
+      userAuthenticationQuery.isSuccess &&
+      userAuthenticationQuery.data != undefined
+    ) {
+      setUserAuthenticated(userAuthenticationQuery.data);
+    }
+  }, [
     address,
+    chain,
+    isConnected,
+    userAuthenticationQuery.isSuccess,
+    userAuthenticationQuery.data,
   ]);
 
   const signUp = async () => {
@@ -39,7 +61,7 @@ export default function Home() {
       message: messageText,
     })
       .then(async (signature) => {
-        const response = await fetch(USER_AUTHENTICATION, {
+        const response = await fetch(USER_SIGN_UP, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           mode: "cors",
@@ -51,7 +73,6 @@ export default function Home() {
         });
 
         const data = await response.json();
-        console.log(data);
 
         if (data == true) {
           toast.success("Sign up successful");
@@ -73,13 +94,19 @@ export default function Home() {
       <div className="absolute top-4 right-4 flex gap-4">
         {isConnected && (
           <button
-            disabled={signingInProgress}
+            disabled={signingInProgress || userAuthenticated}
             onClick={signUp}
             className={`h-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 ${
-              signingInProgress ? "cursor-not-allowed" : "cursor-pointer"
+              signingInProgress || userAuthenticated
+                ? "cursor-not-allowed"
+                : "cursor-pointer"
             }`}
           >
-            {signingInProgress ? "Signing..." : "Sign up"}
+            {signingInProgress
+              ? "Signing..."
+              : userAuthenticated
+              ? "Signed up!"
+              : "Sign up"}
           </button>
         )}
         <ConnectButton />
@@ -91,6 +118,8 @@ export default function Home() {
           <div>Something went wrong!</div>
         ) : userTokensQuery.isLoading ? (
           <div>Loading...</div>
+        ) : userTokens?.length == 0 ? (
+          <div>No tokens found in the connected wallet</div>
         ) : (
           <table className="table-auto border-collapse border border-gray-400">
             <thead>
