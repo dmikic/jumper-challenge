@@ -1,6 +1,7 @@
 # Jumper Challenge Backend App
 
 This is the backend application created for the Jumper Challenge.
+Redis as a service is being used as a DB
 
 ## Getting Started
 
